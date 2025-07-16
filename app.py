@@ -1,6 +1,7 @@
 import streamlit as st
 from youtube_transcript_api import YouTubeTranscriptApi
 from transformers import pipeline
+import textwrap
 import torch  # Ensure PyTorch is imported
 import time
 
@@ -69,16 +70,56 @@ def summarize_video(video_url):
     except Exception as e:
         print(f"An error occurred: {str(e)}")
 
+def generate_video_script(summary_text):
+    """Generate a short video script from the summary."""
+    try:
+        generator = pipeline(
+            "text-generation",
+            model="gpt2",
+            device=0 if torch.cuda.is_available() else -1
+        )
+
+        prompt = textwrap.dedent(
+            f"""
+            Create a concise and engaging script for a short video based on the following summary. The script should include a brief intro, key points, and an outro.\n\nSummary:\n{summary_text}\n\nScript:
+            """
+        ).strip()
+
+        generated = generator(prompt, max_length=200, num_return_sequences=1)
+        script = generated[0]["generated_text"][len(prompt):].strip()
+        return script
+    except Exception as e:
+        print(f"An error occurred while generating the script: {str(e)}")
+        return ""
+
 # Streamlit app
 st.title("YouTube Video Summarizer")
 
-url = st.text_input("Enter YouTube URL:")
-if st.button("Submit"):
-    with st.spinner('Summarizing...'):
-        start_time = time.time()
-        summary = summarize_video(url)
-        end_time = time.time()
-        time_taken = end_time - start_time
-        st.header("Summary:")
-        st.markdown(summary)
-        st.success(f"Time taken: {time_taken:.2f} seconds")
+tab1, tab2 = st.tabs(["Summarize Video", "Generate Video Script"])
+
+with tab1:
+    url = st.text_input("Enter YouTube URL:", key="summarize_url")
+    if st.button("Summarize", key="summarize_button"):
+        with st.spinner('Summarizing...'):
+            start_time = time.time()
+            summary = summarize_video(url)
+            end_time = time.time()
+            time_taken = end_time - start_time
+            st.header("Summary:")
+            st.markdown(summary)
+            st.success(f"Time taken: {time_taken:.2f} seconds")
+
+with tab2:
+    url_script = st.text_input("Enter YouTube URL:", key="script_url")
+    if st.button("Create Script", key="script_button"):
+        with st.spinner('Generating script...'):
+            start_time = time.time()
+            summary = summarize_video(url_script)
+            script = generate_video_script(summary)
+            end_time = time.time()
+            time_taken = end_time - start_time
+            st.header("Summary:")
+            st.markdown(summary)
+            st.header("Video Script:")
+            st.markdown(script)
+            st.success(f"Time taken: {time_taken:.2f} seconds")

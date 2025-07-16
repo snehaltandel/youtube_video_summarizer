@@ -14,6 +14,7 @@
     <li>Extracts key points from YouTube videos</li>
     <li>Provides text summaries</li>
     <li>Easy to use interface</li>
+    <li>Generates unique scripts for short videos based on summaries</li>
 </ul>
 
 <h2>Installation</h2>
@@ -27,7 +28,7 @@
 <h2>Usage</h2>
 <p>To use the summarizer, run the following command:</p>
 <pre><code>npm start</code></pre>
-<p>Then, enter the URL of the YouTube video you want to summarize.</p>
+<p>Then, enter the URL of the YouTube video you want to summarize. If you want to generate a short video script, switch to the second tab and submit the URL there.</p>
 
 <h2>Contributing</h2>
 <p>We welcome contributions! Please read our <a href="CONTRIBUTING.md">contributing guidelines</a> for more details.</p>
