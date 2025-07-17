@@ -22,12 +22,12 @@
 <ol>
     <li>Clone the repository: <code>git clone https://github.com/yourusername/youtube-video-summarizer.git</code></li>
     <li>Navigate to the project directory: <code>cd youtube-video-summarizer</code></li>
-    <li>Install the dependencies: <code>npm install</code></li>
+    <li>Install the dependencies: <code>pip install streamlit youtube_transcript_api transformers torch</code></li>
 </ol>
 
 <h2>Usage</h2>
 <p>To use the summarizer, run the following command:</p>
-<pre><code>npm start</code></pre>
+<pre><code>streamlit run app.py</code></pre>
 <p>Then, enter the URL of the YouTube video you want to summarize. If you want to generate a short video script, switch to the second tab and submit the URL there.</p>
 
 <h2>Contributing</h2>
