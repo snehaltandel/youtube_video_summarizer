@@ -1,0 +1,14 @@
+# Python
+__pycache__/
+*.pyc
+venv/
+.venv/
+
+# App output
+transcript/*.txt
+summary/*.txt
+!transcript/.gitkeep
+!summary/.gitkeep
+
+# OS
+.DS_Store
